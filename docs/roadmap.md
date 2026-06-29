@@ -31,9 +31,11 @@ simple module before the complex one.
 *Size: small.* **Done** — one repository per image via `for_each`, secure defaults
 (immutable tags, scan-on-push, lifecycle retention), optional KMS; 4 passing offline tests.
 
-### Phase 3 — `cluster/aws`
+### Phase 3 — `cluster/aws` ✅
 ECS cluster + capacity providers (FARGATE / FARGATE_SPOT). Depends conceptually on `network`.
-*Size: small.*
+*Size: small.* **Done** — thin cluster: registers Fargate capacity providers (the
+spot-vs-on-demand strategy is deferred to the service module), Container Insights toggle;
+3 passing offline tests.
 
 ### Phase 4 — `loadbalancer/aws`
 ALB + listener + security group. Consumes `network`. The ingress `service` plugs into.
