@@ -57,20 +57,28 @@ then hands the keys to Steer.
 keel-infra/
 ├── docs/
 │   ├── naming.md        # naming convention ↔ steer.toml templates
-│   └── contract.md      # canonical input/output contract per concept
+│   ├── contract.md      # canonical input/output contract per concept
+│   └── roadmap.md       # what's next, in dependency order
 ├── modules/             # (coming) modules/<concept>/<cloud>/ — e.g. network/aws/
 └── environments/        # (coming) example compositions per cloud
 ```
 
-Concepts targeted for V1: `network`, `cluster`, `service`, `loadbalancer`, `registry`, `iam`.
+Concepts targeted for V1: `network`, `registry`, `cluster`, `loadbalancer`, `service`.
+Identity (IAM) is **not** a peer concept — each module owns its own identity, because the
+shared idea is modeled too differently across clouds to share one contract. See
+[`docs/roadmap.md`](docs/roadmap.md).
 
 ## Status & roadmap
 
 - [x] Repo skeleton: structure, naming convention, module contract, CI, license
-- [ ] First reference module (`network/aws`) with README + `terraform test`
-- [ ] Remaining V1 modules
+- [ ] `network/aws` — reference module (sets the pattern) with README + `terraform test`
+- [ ] `registry/aws`, `cluster/aws`, `loadbalancer/aws`
+- [ ] `service/aws` — capstone (owns its identity)
 - [ ] `environments/aws-example` end-to-end composition
+- [ ] Steer integration validation (a `steer.toml` driving the substrate)
 - [ ] Multi-cloud seam: first non-AWS implementation (tracks Steer's provider support)
+
+Full detail and dependency graph: [`docs/roadmap.md`](docs/roadmap.md).
 
 ## License
 

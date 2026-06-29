@@ -35,11 +35,18 @@ cloud-neutral.
 | Concept        | Purpose                                  | AWS implementation (planned) |
 | -------------- | ---------------------------------------- | ---------------------------- |
 | `network`      | VPC/VNet, subnets, routing, egress       | `aws_vpc` + subnets + NAT toggle |
-| `cluster`      | Container orchestration cluster          | `aws_ecs_cluster`            |
-| `service`      | A deployed containerized service         | `aws_ecs_service` + task def |
-| `loadbalancer` | L7 ingress + routing                     | `aws_lb` + listener          |
 | `registry`     | Container image registry                 | `aws_ecr_repository`         |
-| `iam`          | Roles/policies for the above             | `aws_iam_role` + policies    |
+| `cluster`      | Container orchestration cluster          | `aws_ecs_cluster`            |
+| `loadbalancer` | L7 ingress + routing                     | `aws_lb` + listener          |
+| `service`      | A deployed containerized service         | `aws_ecs_service` + task def |
+
+> **Identity (IAM) is not a peer concept.** "IAM" is an AWS name; the shared idea — a
+> workload identity plus scoped permissions — maps to different resources and models per
+> cloud (AWS role + policy, GCP service account + bindings, Azure managed identity + RBAC),
+> and it is cross-cutting: it belongs with the resource it protects. So each module **owns
+> its identity** and exposes a neutral `identity_ref` output (role ARN / SA email / identity
+> id). A standalone `identity` concept is introduced only if genuinely shared identities
+> appear. See [`roadmap.md`](roadmap.md).
 
 ## Contract conventions
 
