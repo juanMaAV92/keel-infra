@@ -71,7 +71,7 @@ shared idea is modeled too differently across clouds to share one contract. See
 ## Status & roadmap
 
 - [x] Repo skeleton: structure, naming convention, module contract, CI, license
-- [ ] `network/aws` — reference module (sets the pattern) with README + `terraform test`
+- [x] `network/aws` — reference module (sets the pattern) with README + `terraform test`
 - [ ] `registry/aws`, `cluster/aws`, `loadbalancer/aws`
 - [ ] `service/aws` — capstone (owns its identity)
 - [ ] `environments/aws-example` end-to-end composition

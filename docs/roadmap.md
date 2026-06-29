@@ -17,12 +17,13 @@ is built before the outputs it consumes exist.
 ### Phase 0 — Skeleton ✅
 Structure, naming convention, module contract, CI (OIDC), license. *(done)*
 
-### Phase 1 — `network/aws` (reference module) 🔑
+### Phase 1 — `network/aws` (reference module) 🔑 ✅
 The keystone. Foundation for everything (VPC, subnets, routing, egress) **and** the pattern
 every later module copies: `main/variables/outputs/versions`, terraform-docs README, first
 `terraform test`, the contract made real. Activates CI on real HCL. Closes the nao-infra gap
-with an explicit `enable_nat_gateway` / VPC-endpoints toggle.
-*Size: medium. Blocks all others.*
+with an explicit `enable_nat_gateway` / S3-endpoint toggle.
+*Size: medium. Blocks all others.* **Done** — single/per-AZ NAT toggle, configurable flow-log
+retention, scoped (non-`*`) flow-logs IAM, optional S3 gateway endpoint; 4 passing offline tests.
 
 ### Phase 2 — `registry/aws`
 Independent, no dependencies (`aws_ecr_repository`). Validates the pattern on a second,
