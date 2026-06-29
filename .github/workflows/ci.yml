@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# No long-lived AWS keys. When modules land and a job needs to talk to AWS
+# (e.g. `terraform plan`), it assumes a role via GitHub OIDC:
+#
+#   permissions:
+#     id-token: write
+#     contents: read
+#   steps:
+#     - uses: aws-actions/configure-aws-credentials@v4
+#       with:
+#         role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+#         aws-region: us-east-1
+#
+# Until then, the checks below are static and need no cloud credentials.
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Format, lint & security
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform fmt
+        run: terraform fmt -check -recursive -diff
+
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v4
+        with:
+          tflint_version: latest
+
+      - name: TFLint
+        run: |
+          tflint --init
+          tflint --recursive --format compact
+
+      - name: Security scan (Trivy)
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: config
+          scan-ref: .
+          severity: CRITICAL,HIGH
+          exit-code: "1"
+          format: table
+
+      - name: Check docs are generated (terraform-docs)
+        uses: terraform-docs/gh-actions@v1.3.0
+        with:
+          working-dir: .
+          recursive: true
+          output-file: README.md
+          output-method: inject
+          fail-on-diff: true

@@ -1,0 +1,52 @@
+# ============================================
+# Terraform
+# ============================================
+
+# Local .terraform directories
+**/.terraform/*
+
+# State files — never commit
+*.tfstate
+*.tfstate.*
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Exclude all .tfvars (likely to contain secrets); keep examples
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+
+# Override files (local-only config)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Keep provider lock files for reproducibility
+!.terraform.lock.hcl
+
+# CLI config
+.terraformrc
+terraform.rc
+
+# Plan output
+*.tfplan*
+tfplan*
+*.out
+
+# ============================================
+# Secrets / keys — never commit
+# ============================================
+*.pem
+.env
+.env.*
+!.env.example
+
+# ============================================
+# OS / editor
+# ============================================
+.DS_Store
+.idea/
+.vscode/
