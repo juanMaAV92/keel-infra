@@ -25,10 +25,11 @@ with an explicit `enable_nat_gateway` / S3-endpoint toggle.
 *Size: medium. Blocks all others.* **Done** — single/per-AZ NAT toggle, configurable flow-log
 retention, scoped (non-`*`) flow-logs IAM, optional S3 gateway endpoint; 4 passing offline tests.
 
-### Phase 2 — `registry/aws`
+### Phase 2 — `registry/aws` ✅
 Independent, no dependencies (`aws_ecr_repository`). Validates the pattern on a second,
 simple module before the complex one.
-*Size: small.*
+*Size: small.* **Done** — one repository per image via `for_each`, secure defaults
+(immutable tags, scan-on-push, lifecycle retention), optional KMS; 4 passing offline tests.
 
 ### Phase 3 — `cluster/aws`
 ECS cluster + capacity providers (FARGATE / FARGATE_SPOT). Depends conceptually on `network`.
